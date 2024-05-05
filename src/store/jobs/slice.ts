@@ -17,24 +17,18 @@ type Job = {
 
 interface InitialStateType {
   jobs: Job[];
-  isLoading: boolean;
 }
 
 const initialState: InitialStateType = {
   jobs: [],
-  isLoading: false,
 };
 
 export const jobsSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    isLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
-    },
     addJob(state, action: PayloadAction<Job>) {
       state.jobs.push(action.payload);
-      state.isLoading = false;
     },
   },
 });
