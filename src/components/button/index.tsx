@@ -46,7 +46,7 @@ export function PrimaryButton(props: props) {
       sx={{
         padding: props.padding,
         borderRadius: props.borderRadius ? props.borderRadius : "5px",
-        backgroundColor: "#55efc4",
+        backgroundColor: props.backgroundColor,
         color: "#000",
         ":hover": {
           backgroundColor: "#00b894",

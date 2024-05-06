@@ -20,6 +20,7 @@ interface props {
   salaryEndRange?: number;
   aboutCompany?: string;
   aboutRole?: string;
+  minExperience?: string;
 
   height?: number | string;
   width?: number;
@@ -44,6 +45,8 @@ export function BasicCard(props: props) {
   return (
     <Card
       sx={{
+        display: "flex",
+        flexDirection: "column",
         minWidth: props.width ? props.width : "100%",
         maxWidth: props.width ? props.width : "100%",
         height: props.height,
@@ -51,6 +54,7 @@ export function BasicCard(props: props) {
         borderRadius: 5,
         pb: 1,
         transition: "transform 0.2s",
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
 
         ":hover": {
           transform: "scale(1.01)",
@@ -63,7 +67,7 @@ export function BasicCard(props: props) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "blue" }} aria-label="card-header">
-            R
+            {props.title?.charAt(0)}
           </Avatar>
         }
         title={
@@ -90,45 +94,70 @@ export function BasicCard(props: props) {
         }
       />
 
-      <CardContent>
-        <Box display="flex" flexDirection={"column"} alignItems={"start"}>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Box
+          display="flex"
+          flexDirection={"column"}
+          alignItems={"start"}
+          flexGrow={1}
+        >
           <Typography
-            sx={{ fontSize: 14, fontWeight: 500, color: "#4d596a" }}
+            fontSize={14}
+            fontWeight={500}
+            color="#4d596a"
             gutterBottom
           >
             Estimated Salary: ₹ {props.salaryStartRange} -{" "}
             {props.salaryEndRange} LPA ✅
           </Typography>
-          <Box id="about-company">
-            <Typography sx={{ fontSize: 22, fontWeight: 500 }} gutterBottom>
-              About Company
-            </Typography>
-            <Typography sx={{ fontSize: 22, fontWeight: 500 }} gutterBottom>
-              {props.aboutCompany}
-            </Typography>
+          <Box textAlign="start" height={250} overflow="hidden">
+            <Box id="about-company">
+              <Typography fontSize={16} fontWeight={500}>
+                About Company
+              </Typography>
+              <Typography fontSize={14}>
+                {props.aboutCompany} Sciera, Inc. helps enterprises transform
+                Big Data into actionable insights -- and insights into business
+                success. Sciera accomplishes this through customized data
+                acquisition, analytics, modeling, and scoring products and
+                processes. Sciera's clients benefit from a series of
+                industry-specific as well as horizontal solutions meant to
+                address specific needs. Clients in the cable TV and deregulated
+                utility industries can address the age-old problem of Churn and
+                increase Market Share with Sciera's RealWatch data and
+                industry-specific FlowShare management.
+              </Typography>
+            </Box>
+            <Box id="about-role">
+              <Typography fontSize={16} fontWeight={500}>
+                About Role
+              </Typography>
+              <Typography fontSize={14}>{props.aboutRole}</Typography>
+            </Box>
           </Box>
-          <Box id="about-role">
-            <Typography sx={{ fontSize: 22, fontWeight: 500 }} gutterBottom>
-              About Role
+          <Box>
+            <PrimaryButton title="Show More" variant="text" />
+          </Box>
+
+          <Box id="min-experience" textAlign="start">
+            <Typography fontSize={16} fontWeight={500} color="#8b8b8b">
+              Minimum Experience
             </Typography>
-            <Typography sx={{ fontSize: 22, fontWeight: 500 }} gutterBottom>
-              {props.aboutRole}
-            </Typography>
+            <Typography>{props.minExperience}1 years</Typography>
           </Box>
         </Box>
 
         {props.children}
       </CardContent>
       {props.cardAction && (
-        <CardActions>
+        <CardActions sx={{ display: "flex", px: 2 }}>
           <PrimaryButton
             variant="contained"
             title={props?.btnLabel ? props.btnLabel : ""}
-            type={props.btnType}
             borderColor="1px solid #8a89fa"
             borderRadius="8px"
             padding={"8px 18px"}
-            backgroundColor="#8a89fa"
+            backgroundColor="#55efc4"
             fontSize={12}
             fontWeight={500}
             width={110}
