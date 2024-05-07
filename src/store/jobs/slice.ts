@@ -15,23 +15,31 @@ type Job = {
   salaryCurrencyCode: string;
 };
 
+type JobsData = {
+  jdList: Job[];
+  totalCount: number;
+};
+
 interface InitialStateType {
-  jobs: Job[];
+  jobs: JobsData;
 }
 
 const initialState: InitialStateType = {
-  jobs: [],
+  jobs: {
+    jdList: [],
+    totalCount: 0,
+  },
 };
 
 export const jobsSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    addJob(state, action: PayloadAction<Job>) {
-      state.jobs.push(action.payload);
+    jobsList(state, action: PayloadAction<JobsData>) {
+      state.jobs = action.payload;
     },
   },
 });
 
-export const { addJob } = jobsSlice.actions;
+export const { jobsList } = jobsSlice.actions;
 export default jobsSlice.reducer;

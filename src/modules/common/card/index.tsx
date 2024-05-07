@@ -1,6 +1,5 @@
 import {
   Avatar,
-  AvatarGroup,
   Badge,
   Box,
   Card,
@@ -10,11 +9,11 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "../button";
 import { Chips } from "../chip";
-import { CardComponentProps } from "./types";
 import { sxStyles } from "./index.styles";
-import { styled } from "@mui/material/styles";
+import { CardComponentProps } from "./types";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -40,6 +39,7 @@ export function BasicCard(props: CardComponentProps) {
   }
 
   return (
+
     <Card sx={styles.cardStyles}>
       <Box
         sx={{
@@ -60,19 +60,19 @@ export function BasicCard(props: CardComponentProps) {
           <Box sx={styles.cardHeaderStyles.titleFlexBox}>
             <Box sx={styles.cardHeaderStyles.titleBox}>
               <img
-                src="https://storage.googleapis.com/weekday-assets/airtableAttachment_1713945551803_bjb8u.jpg"
+                src={props.logoUrl}
                 style={styles.cardHeaderStyles.image}
                 alt="company-logo"
               />
               <Box>
-                <Link href="#" underline="hover" id="title">
+                <Link href={props.jdLink} underline="hover" id="title">
                   <Typography
                     fontSize={14}
                     textAlign={"left"}
                     fontWeight={500}
                     color="#8b8b8b"
                   >
-                    {props.title}
+                    {props.companyName}
                   </Typography>
                 </Link>
                 <Typography
@@ -80,12 +80,13 @@ export function BasicCard(props: CardComponentProps) {
                   fontSize={14}
                   textAlign={"left"}
                 >
-                  {props.subheader}
+                  {props.jobRole}
                 </Typography>
                 <Typography
                   variant="subtitle2"
                   fontSize={11}
-                  textAlign={"left"}
+                  textAlign="left"
+                  textTransform="capitalize"
                 >
                   {props.location}
                 </Typography>
@@ -98,8 +99,8 @@ export function BasicCard(props: CardComponentProps) {
       <CardContent sx={styles.cardContentStyles.main}>
         <Box sx={styles.cardContentStyles.mainContentBox}>
           <Typography fontSize={14} color="#4d596a" gutterBottom>
-            Estimated Salary: ₹ {props.salaryStartRange} -{" "}
-            {props.salaryEndRange} LPA ✅
+            Estimated Salary: {props.salaryCurrencyCode} {props.minJdSalary}
+            {"- " + props.maxJdSalary} LPA ✅
           </Typography>
           <Box sx={styles.cardContentStyles.contentBox}>
             <Box id="about-company">
@@ -110,15 +111,7 @@ export function BasicCard(props: CardComponentProps) {
                 About us
               </Typography>
               <Typography fontSize={14}>
-                {props.aboutCompany}
-                Feufo specializes in temporary, permanent, contract, and remote
-                staffing across healthcare, manufacturing, IT, finance, and oil
-                & gas industries. We offer tailored solutions for short-term
-                projects, full-time positions, executive searches, and
-                international staffing needs. Whether you need temporary
-                workers, high-level executives, or remote talent, Feufo ensures
-                efficient and effective staffing solutions to meet your business
-                requirements.
+                {props.jobDetailsFromCompany}
               </Typography>
             </Box>
             <Box id="about-role">
@@ -144,7 +137,16 @@ export function BasicCard(props: CardComponentProps) {
           <Typography fontSize={13} fontWeight={500} color="#8b8b8b">
             Minimum Experience
           </Typography>
-          <Typography fontSize={13}>{props.minExperience}1 years</Typography>
+          <Typography fontSize={13}>
+            {props.minExp && props.maxExp
+              ? `${props.minExp} - ${props.maxExp}`
+              : props.minExp
+              ? props.minExp
+              : props.maxExp
+              ? props.maxExp
+              : "0"}
+            &nbsp; years
+          </Typography>
         </Box>
 
         {props.children}

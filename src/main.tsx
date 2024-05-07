@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./App.tsx";
 import "./index.css";
-import { store } from "./store/index.ts";
+import store  from "./store/index.ts";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.ts";
 

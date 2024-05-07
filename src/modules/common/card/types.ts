@@ -10,20 +10,22 @@ export interface CardStyleProps {
 }
 
 export interface CardComponentProps extends CardStyleProps {
-  title?: string;
-  subheader: string;
+  companyName?: string;
+  jobRole?: string;
+  jdLink?: string;
   location?: string;
-  salaryStartRange?: number;
-  salaryEndRange?: number;
-  aboutCompany?: string;
+  minJdSalary?: number;
+  maxJdSalary?: number;
+  jobDetailsFromCompany?: string;
   aboutRole?: string;
-  minExperience?: string;
+  minExp?: string;
+  maxExp?: string;
   setShowMoreModalOpen: (state: boolean) => void;
   cardItems?: Array<any>;
   children?: ReactNode;
-
+  logoUrl?: string;
+  salaryCurrencyCode?: string;
   cardAction?: boolean;
-
   btnOnClick?: any;
   btn1Label?: string;
   btn2Label?: string;
