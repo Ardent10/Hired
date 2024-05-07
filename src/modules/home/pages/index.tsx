@@ -22,10 +22,10 @@ export function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          getJobsList({
-            limit: 10,
-            offset:10,
-          });
+          setApiData((prev) => ({
+            ...prev,
+            offset: prev.offset + apiData.limit,
+          }));
         }
       },
       { threshold: 1 }
@@ -41,7 +41,7 @@ export function Home() {
       }
     };
   }, [observerTarget]);
-  console.log("Observer", observerTarget)
+
   useEffect(() => {
     getJobsList(apiData);
   }, [apiData]);

@@ -31,4 +31,5 @@ export interface CardComponentProps extends CardStyleProps {
   btn2Label?: string;
   btnDisabled?: boolean;
   btnType?: string;
+  postedDate?: string;
 }

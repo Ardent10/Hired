@@ -39,7 +39,6 @@ export function BasicCard(props: CardComponentProps) {
   }
 
   return (
-
     <Card sx={styles.cardStyles}>
       <Box
         sx={{
@@ -50,9 +49,11 @@ export function BasicCard(props: CardComponentProps) {
         px={2}
         pt={3}
       >
-        <Box>
-          <Chips label="Posted 3 days ago" icon={<> ⏳</>} />
-        </Box>
+        {props.postedDate && (
+          <Box>
+            <Chips label="Posted 3 days ago" icon={<> ⏳</>} />
+          </Box>
+        )}
       </Box>
       <CardHeader
         sx={styles.cardHeaderStyles.main}
@@ -78,6 +79,7 @@ export function BasicCard(props: CardComponentProps) {
                 <Typography
                   variant="subtitle1"
                   fontSize={14}
+                  textTransform="capitalize"
                   textAlign={"left"}
                 >
                   {props.jobRole}

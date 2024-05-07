@@ -40,7 +40,6 @@ export const loaderStyles = {
   progressBarContainer: {
     width: "100%",
     marginTop: 1,
-    backgroundColor: "#55EFC4",
     borderRadius: "5px",
     overflow: "hidden",
   },

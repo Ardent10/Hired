@@ -43,14 +43,12 @@ export const JobCardList = forwardRef<HTMLDivElement, JobCardListProps>(
                   setShowMoreModalOpen={setShowMoreModalOpen}
                   btnOnClick={() => console.log("Button clicked")}
                 />
-                {index === jobs.length - 1 && (
-                  <Box ref={ref} id="observerTarget" />
-                )}
               </Grid>
             ))
           : !isLoading && <NoDataFound />}
-        {isLoading && <Loader />}
+        {isLoading && <Loader componentLoader />}
         {error && <Error />}
+        <Box ref={ref} id="observerTarget" height={0.15} />
       </Grid>
     );
   }

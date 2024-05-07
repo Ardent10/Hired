@@ -19,8 +19,8 @@ export function useJobs() {
   const getJobsList = async ({ limit, offset }: useJobsProps) => {
     setIsLoading(true);
     const body = JSON.stringify({
-      limit: 10,
-      offset: 0,
+      limit: limit,
+      offset: offset,
     });
     const requestOptions = {
       method: "POST",
