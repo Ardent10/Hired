@@ -5,11 +5,6 @@ import * as React from "react";
 const TooltipContainer = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
 ))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: "#222",
-    margin: "auto",
-    padding: "0",
-  },
   [`& .${tooltipClasses.tooltip}`]: {
     padding: "10px 15px",
     fontSize: "13px",
@@ -40,9 +35,9 @@ interface props {
 export function CustomTooltip({ label, children, placement }: props) {
   return (
     <>
-      <TooltipContainer title={label} placement={placement}>
+      <Tooltip title={label} placement={placement} sx={{bgcolor:"red",zIndex:99999}}>
         {children}
-      </TooltipContainer>
+      </Tooltip>
     </>
   );
 }

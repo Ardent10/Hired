@@ -12,7 +12,9 @@ import {
 import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "../button";
 import { Chips } from "../chip";
+import { Experience } from "./experience";
 import { sxStyles } from "./index.styles";
+import { Salary } from "./salary";
 import { CardComponentProps } from "./types";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -100,10 +102,11 @@ export function BasicCard(props: CardComponentProps) {
 
       <CardContent sx={styles.cardContentStyles.main}>
         <Box sx={styles.cardContentStyles.mainContentBox}>
-          <Typography fontSize={14} color="#4d596a" gutterBottom>
-            Estimated Salary: {props.salaryCurrencyCode} {props.minJdSalary}
-            {"- " + props.maxJdSalary} LPA ✅
-          </Typography>
+          <Salary
+            minJdSalary={props.minJdSalary}
+            maxJdSalary={props.maxJdSalary}
+            salaryCurrencyCode={props.salaryCurrencyCode}
+          />
           <Box sx={styles.cardContentStyles.contentBox}>
             <Box id="about-company">
               <Typography fontSize={16} fontWeight={400}>
@@ -135,21 +138,7 @@ export function BasicCard(props: CardComponentProps) {
             <Link href="#" underline="hover" />
           </Box>
         </Box>
-        <Box id="min-experience" textAlign="start" mb={1}>
-          <Typography fontSize={13} fontWeight={500} color="#8b8b8b">
-            Minimum Experience
-          </Typography>
-          <Typography fontSize={13}>
-            {props.minExp && props.maxExp
-              ? `${props.minExp} - ${props.maxExp}`
-              : props.minExp
-              ? props.minExp
-              : props.maxExp
-              ? props.maxExp
-              : "0"}
-            &nbsp; years
-          </Typography>
-        </Box>
+        <Experience minExp={props.minExp} maxExp={props.maxExp} />
 
         {props.children}
       </CardContent>

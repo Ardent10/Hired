@@ -1,12 +1,12 @@
 import { CardStyleProps } from "./types";
 
-export const sxStyles = (props: CardStyleProps) => ({
+export const sxStyles = (props?: CardStyleProps) => ({
   cardStyles: {
     display: "flex",
     flexDirection: "column",
-    minWidth: props.width ? props.width : "100%",
-    maxWidth: props.width ? props.width : "100%",
-    height: props.height,
+    minWidth: props?.width ? props.width : "100%",
+    maxWidth: props?.width ? props.width : "100%",
+    height: props?.height,
     position: props?.position,
     borderRadius: 5,
     pb: 0.5,

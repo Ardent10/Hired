@@ -4,6 +4,7 @@ export function JobPageTitle(){
   return (
     <Typography
       p={4}
+      pb={6}
       variant="h4"
       color="transparent"
       sx={{
