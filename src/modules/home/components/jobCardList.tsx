@@ -27,20 +27,13 @@ export function JobCardList({
   apiData,
   state,
 }: JobCardListProps) {
-  const totalJobCount = state.jobs.totalCount||947;
+  const totalJobCount = state.jobs.totalCount ?? 947;
   const observerTarget = useRef(null);
-  console.log(state, state.jobs.totalCount);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           const nextOffset = apiData.offset + apiData.limit;
-          console.log(
-            "NEW=>",
-            apiData,
-            totalJobCount,
-            nextOffset < totalJobCount
-          );
           if (nextOffset <= totalJobCount) {
             setApiData({ ...apiData, offset: nextOffset });
           }

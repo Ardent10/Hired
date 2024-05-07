@@ -13,7 +13,6 @@ interface props {
   required?: boolean;
   label?: string;
   inputPadding?: string | number;
-  inputFieldGridSpace?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   onChange?: any;
   rest?: any;
   maxDate?: Date | string;
@@ -32,7 +31,6 @@ export const InputField = ({
   required,
   label,
   inputPadding,
-  inputFieldGridSpace,
   rest,
   maxDate,
   minDate,
@@ -49,11 +47,7 @@ export const InputField = ({
         formState: { isValid },
       }) => {
         return (
-          <Grid
-            container
-            direction={direction}
-            alignItems={direction === "row" ? "center" : ""}
-          >
+          <Grid container direction={direction}>
             <InputLabel
               label={label}
               required={required}
@@ -63,12 +57,15 @@ export const InputField = ({
               visibility={value ? "visible" : "hidden"}
             />
 
-            <Grid item xs={direction === "row" ? inputFieldGridSpace : 12}>
+            <Grid item xs={12}>
               <TextField
                 sx={{
                   borderRadius: "5px",
                   ".MuiOutlinedInput-root": {
-                    padding: inputPadding && inputPadding,
+                    height: "38px",
+                    padding: inputPadding,
+                    fontSize:13,
+                    fontWeight: 400,
                   },
                 }}
                 type={type}

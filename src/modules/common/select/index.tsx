@@ -1,12 +1,6 @@
-import {
-  Grid,
-  ListItemIcon,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import { Controller } from "react-hook-form";
+import Select from "react-select";
 import { Error } from "../error";
 import { InputLabel } from "../input/inputLabel";
 
@@ -22,17 +16,16 @@ const MenuProps = {
 
 interface SelectorProps {
   title?: string;
-  flexDirection?: string;
   fontSize?: number;
   data: any;
   name: string;
   control: any;
-  selectFieldGridSpace?: number;
   required?: boolean;
   fontWeight?: number;
   disable?: boolean;
   sendId?: boolean;
   placeholder?: string;
+  isMulti?: boolean;
 }
 
 export function SelectField({
@@ -40,9 +33,9 @@ export function SelectField({
   name,
   control,
   title,
-  flexDirection,
+
   fontSize,
-  selectFieldGridSpace,
+  isMulti,
   required,
   fontWeight,
   disable,
@@ -59,7 +52,7 @@ export function SelectField({
         formState: { isValid },
       }) => {
         return (
-          <Grid container width={"100%"}>
+          <Grid container item width="auto" display="block">
             {title && (
               <Grid item>
                 <InputLabel
@@ -72,54 +65,29 @@ export function SelectField({
                 />
               </Grid>
             )}
-            <Grid item xs={flexDirection === "row" ? selectFieldGridSpace : 12}>
+            <Grid item xs={12}>
               <Select
                 placeholder={placeholder}
-                size="small"
-                sx={{
-                  width: "100%",
-                  textAlign: "left",
-                  borderRadius: "5px",
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    borderColor: error ? "red" : base.borderColor,
+                    fontSize: fontSize,
+                    textAlign: "left",
+                    fontWeight: 300,
+                  }),
                 }}
-                defaultValue={""}
                 value={value}
-                onBlur={onBlur}
                 onChange={onChange}
-                input={<OutlinedInput />}
-                error={
-                  error || (required && isTouched && !value) ? true : false
-                }
-                inputRef={ref}
-                required={required}
-                MenuProps={MenuProps}
-                inputProps={{
-                  "aria-label": "Without label",
-                }}
-                disabled={disable}
-                renderValue={(selected) => {
-                  if (selected?.length === 0) {
-                    return <Typography>{placeholder}</Typography>;
-                  }
-
-                  return selected.join(", ");
-                }}
-              >
-                {data.map((d: any) => {
-                  return (
-                    <MenuItem
-                      key={d.id ? d.id : d.label}
-                      value={sendId === true ? d.id : d.label}
-                    >
-                      {d.icon && (
-                        <ListItemIcon>
-                          <img src={d.icon} alt="icon" height={10} width={10} />
-                        </ListItemIcon>
-                      )}
-                      {(d.showLabel && d.showLabel) || d.label}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
+                onBlur={onBlur}
+                isDisabled={disable}
+                isClearable={true}
+                isMulti={isMulti}
+                name={name}
+                options={data}
+                className="basic-multi-select"
+                classNamePrefix="select"
+              />
             </Grid>
             <Error error={error} />
           </Grid>
