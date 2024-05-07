@@ -1,5 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-import Link from "@mui/material/Link";
 
 interface props {
   label?: string;
@@ -8,8 +7,16 @@ interface props {
   direction?: string;
   fontWeight?: number;
   color?: string;
-  headingMargin?: string;
-  forgetPasswordLink?: boolean;
+  id?: string;
+
+  visibility?:
+    | "visible"
+    | "hidden"
+    | "collapse"
+    | "initial"
+    | "inherit"
+    | "unset"
+    | undefined;
 }
 
 export function InputLabel({
@@ -19,12 +26,20 @@ export function InputLabel({
   direction,
   color,
   fontWeight,
-  headingMargin,
-  forgetPasswordLink,
+  visibility,
+  id,
 }: props) {
   return (
     <Grid>
-      <Typography component="h4" variant="h6">
+      <Typography
+        id={id}
+        component="h4"
+        variant="h6"
+        fontSize={fontSize ? fontSize : 12}
+        fontWeight={fontWeight ? fontWeight : 300}
+        color="#000"
+        visibility={visibility}
+      >
         {label}
         {required && <span className="text-red-600">*</span>}
       </Typography>

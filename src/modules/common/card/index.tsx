@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import theme from "src/theme";
 import { PrimaryButton } from "../button";
 import { Chips } from "../chip";
 import { Experience } from "./experience";

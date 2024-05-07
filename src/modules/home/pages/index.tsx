@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import { RootState } from "@store/index";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { Filter } from "../components/filter";
 import { JobCardList } from "../components/jobCardList";
 import { JobPageTitle } from "../components/title";
 import { useJobs } from "../hooks";
@@ -14,48 +16,31 @@ export function Home() {
     offset: 0,
   });
   const { isLoading, error, getJobsList } = useJobs();
-  const jobs = state?.jobs?.jdList;
-  const totalJobCount = state?.jobs?.totalCount;
-  const observerTarget = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setApiData((prev) => ({
-            ...prev,
-            offset: prev.offset + apiData.limit,
-          }));
-        }
-      },
-      { threshold: 1 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [observerTarget]);
+  const { handleSubmit, control, watch } = useForm();
 
   useEffect(() => {
     getJobsList(apiData);
   }, [apiData]);
 
-  console.log("Jobs", state.jobs, typeof jobs);
+  const jobs = state?.jobs?.jdList;
   return (
-    <Box textAlign="center" minHeight={"90vh"} height="auto" py={4} px={16}>
+    <Box
+      textAlign="center"
+      minHeight={"90vh"}
+      height="auto"
+      py={4}
+      px={{ xs: 4, md: 8, lg: 16 }}
+    >
       <JobPageTitle />
+      <Filter control={control} watch={watch} />
       <JobCardList
         isLoading={isLoading}
         error={error}
         jobs={jobs}
         setShowMoreModalOpen={setShowMoreModalOpen}
-        ref={observerTarget}
+        setApiData={setApiData}
+        apiData={apiData}
+        state={state}
       />
     </Box>
   );

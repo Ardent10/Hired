@@ -1,5 +1,4 @@
 import { Grid, TextField } from "@mui/material";
-import { useContext } from "react";
 import { Controller } from "react-hook-form";
 import { Error } from "../error";
 import { InputLabel } from "./inputLabel";
@@ -13,14 +12,10 @@ interface props {
   control?: any;
   required?: boolean;
   label?: string;
-  inputHeadingLabelFontWeight?: number;
-  inputHeadingLabelFontSize?: number;
-  inputHeadingLabelColor?: string;
   inputPadding?: string | number;
   inputFieldGridSpace?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   onChange?: any;
   rest?: any;
-  forgetPasswordLink?: boolean;
   maxDate?: Date | string;
   minDate?: Date | string;
   inputFieldPadding?: string | number;
@@ -36,13 +31,9 @@ export const InputField = ({
   control,
   required,
   label,
-  inputHeadingLabelFontWeight,
-  inputHeadingLabelFontSize,
-  inputHeadingLabelColor,
   inputPadding,
   inputFieldGridSpace,
   rest,
-  forgetPasswordLink,
   maxDate,
   minDate,
   onChange,
@@ -65,17 +56,11 @@ export const InputField = ({
           >
             <InputLabel
               label={label}
-              forgetPasswordLink={forgetPasswordLink}
               required={required}
-              fontWeight={
-                inputHeadingLabelFontWeight ? inputHeadingLabelFontWeight : 600
-              }
-              fontSize={
-                inputHeadingLabelFontSize ? inputHeadingLabelFontSize : 16
-              }
-              color={
-                inputHeadingLabelColor ? inputHeadingLabelColor : "#8a89fa"
-              }
+              fontWeight={400}
+              fontSize={13}
+              color={"#8a89fa"}
+              visibility={value ? "visible" : "hidden"}
             />
 
             <Grid item xs={direction === "row" ? inputFieldGridSpace : 12}>

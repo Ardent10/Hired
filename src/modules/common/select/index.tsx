@@ -1,12 +1,11 @@
 import {
-  Chip,
   Grid,
   ListItemIcon,
   MenuItem,
   OutlinedInput,
   Select,
+  Typography,
 } from "@mui/material";
-import { useContext } from "react";
 import { Controller } from "react-hook-form";
 import { Error } from "../error";
 import { InputLabel } from "../input/inputLabel";
@@ -28,13 +27,12 @@ interface SelectorProps {
   data: any;
   name: string;
   control: any;
-  selectHeadingGridSpace?: number;
   selectFieldGridSpace?: number;
   required?: boolean;
   fontWeight?: number;
   disable?: boolean;
   sendId?: boolean;
-  placeHolder?: string;
+  placeholder?: string;
 }
 
 export function SelectField({
@@ -44,13 +42,12 @@ export function SelectField({
   title,
   flexDirection,
   fontSize,
-  selectHeadingGridSpace,
   selectFieldGridSpace,
   required,
   fontWeight,
   disable,
   sendId,
-  placeHolder,
+  placeholder,
 }: SelectorProps) {
   return (
     <Controller
@@ -64,31 +61,30 @@ export function SelectField({
         return (
           <Grid container width={"100%"}>
             {title && (
-              <Grid
-                item
-                xs={flexDirection === "row" ? selectHeadingGridSpace : 12}
-              >
+              <Grid item>
                 <InputLabel
+                  id="demo-multiple-checkbox-label"
                   label={title}
                   required={required}
                   fontSize={fontSize}
                   fontWeight={fontWeight}
+                  visibility={value ? "visible" : "hidden"}
                 />
               </Grid>
             )}
             <Grid item xs={flexDirection === "row" ? selectFieldGridSpace : 12}>
               <Select
-                placeholder={placeHolder && placeHolder}
+                placeholder={placeholder}
                 size="small"
                 sx={{
-                  p: 1,
                   width: "100%",
+                  textAlign: "left",
                   borderRadius: "5px",
                 }}
                 defaultValue={""}
                 value={value}
-                onBlur={onBlur} // notify when input is touched
-                onChange={onChange} // send value to hook form
+                onBlur={onBlur}
+                onChange={onChange}
                 input={<OutlinedInput />}
                 error={
                   error || (required && isTouched && !value) ? true : false
@@ -99,24 +95,20 @@ export function SelectField({
                 inputProps={{
                   "aria-label": "Without label",
                 }}
-                renderValue={() => (
-                  <Chip
-                    key={value}
-                    label={value}
-                    sx={{
-                      backgroundColor: "#93e560",
-                      color: "#FFF",
-                    }}
-                  />
-                )}
                 disabled={disable}
+                renderValue={(selected) => {
+                  if (selected?.length === 0) {
+                    return <Typography>{placeholder}</Typography>;
+                  }
+
+                  return selected.join(", ");
+                }}
               >
                 {data.map((d: any) => {
                   return (
                     <MenuItem
                       key={d.id ? d.id : d.label}
                       value={sendId === true ? d.id : d.label}
-                      className="bg-green-500"
                     >
                       {d.icon && (
                         <ListItemIcon>
