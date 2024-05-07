@@ -1,5 +1,6 @@
 import { BasicCard } from "@components/card";
 import { Box, Grid, Typography } from "@mui/material";
+import { useState } from "react";
 
 export function Home() {
   // const myHeaders = new Headers();
@@ -19,6 +20,8 @@ export function Home() {
   //   .then((response) => response.text())
   //   .then((result) => console.log(JSON.parse(result)))
   //   .catch((error) => console.error(error));
+  const [openShowMoreModal, setShowMoreModalOpen] = useState(false);
+  console.log("Button clicked",openShowMoreModal);
   return (
     <Box textAlign="center" height={"auto"} minHeight={"90vh"} py={4} px={16}>
       <Typography
@@ -26,8 +29,7 @@ export function Home() {
         variant="h4"
         color="transparent"
         sx={{
-          backgroundImage:
-            "linear-gradient(to right, lightgreen, #A5DD9B)",
+          backgroundImage: "linear-gradient(to right, lightgreen, #A5DD9B)",
           backgroundClip: "text",
         }}
         fontSize={60}
@@ -36,19 +38,21 @@ export function Home() {
         NextGen Hiring platform
       </Typography>
       <Grid container spacing={8}>
-        {[1, 2, 3,4,5,6].map((index) => (
+        {[1, 2, 3, 4, 5, 6].map((index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>
             <BasicCard
               key={index}
               title={`Homework App`}
-              subheader="Jr Fullstack"
-              location="Bangalore, India"
-              height={550}
+              subheader="Sr. Python Full Stack Engineer"
+              location="India (Remote)"
+              height={600}
               maxWidth={360}
               cardAction
-              btnLabel="⚡ Easy Apply"
+              btn1Label="⚡ Easy Apply"
+              btn2Label="Unlock Referral ask"
               salaryStartRange={10}
               salaryEndRange={15}
+              setShowMoreModalOpen={setShowMoreModalOpen}
               btnOnClick={() => console.log("Button clicked")}
             />
           </Grid>

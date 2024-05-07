@@ -1,6 +1,7 @@
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
-import * as React from "react";
+import React, { useEffect } from "react";
+import { sxStyles } from "./index.styles";
 
 interface ChipData {
   key: number | string;
@@ -31,7 +32,7 @@ const convertToChipData = (array: (ChipData | string)[]): ChipData[] => {
 export function Chips(props: Props) {
   const [chipData, setChipData] = React.useState<ChipData[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.chipsArray) {
       setChipData(convertToChipData(props.chipsArray));
     }
@@ -44,25 +45,13 @@ export function Chips(props: Props) {
   };
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        justifyContent: "start",
-        flexWrap: "wrap",
-        listStyle: "none",
-        m: 0,
-        p: 0,
-        bgcolor: "transparent",
-      }}
-      component="ul"
-      elevation={0}
-    >
+    <Paper sx={sxStyles.chipPaperStyles} component="ul" elevation={0}>
       {chipData?.length > 0 ? (
         chipData.map((data, id) => {
           return (
             <Chip
               clickable
-              sx={{ margin: 0.5, backgroundColor: "#64c956", color: "#FFF" }}
+              sx={sxStyles.chipArrayStyles}
               key={data?.key ? data?.key : id}
               icon={data?.icon}
               label={data?.label}
@@ -72,7 +61,7 @@ export function Chips(props: Props) {
         })
       ) : (
         <Chip
-          sx={{ px: 0.5, fontSize: 9 }}
+          sx={sxStyles.chipStyles}
           key={props?.key}
           icon={props?.icon}
           label={props?.label}
