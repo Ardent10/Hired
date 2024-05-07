@@ -67,10 +67,12 @@ export const sxStyles = (props: CardStyleProps) => ({
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      padding: "0px 21px 16px 21px",
+      padding: "0px 21px 8px 21px",
       m: 0,
     },
     btnBox: { gap: 1, display: "flex", flexDirection: "column", width: "100%" },
     avatarBox: { display: "flex", gap: 1, px: 1, position: "relative" },
+    badgeStyles: { filter: "blur(2px)" },
+    avatar: { height: "30px", width: "30px" },
   },
 });

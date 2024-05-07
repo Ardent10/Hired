@@ -21,8 +21,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@components/*": ["./src/modules/common/*"],
       "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils"]
     }

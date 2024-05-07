@@ -21,7 +21,7 @@ export function Home() {
   //   .then((result) => console.log(JSON.parse(result)))
   //   .catch((error) => console.error(error));
   const [openShowMoreModal, setShowMoreModalOpen] = useState(false);
-  console.log("Button clicked",openShowMoreModal);
+  console.log("Button clicked", openShowMoreModal);
   return (
     <Box textAlign="center" height={"auto"} minHeight={"90vh"} py={4} px={16}>
       <Typography
@@ -49,7 +49,7 @@ export function Home() {
               maxWidth={360}
               cardAction
               btn1Label="⚡ Easy Apply"
-              btn2Label="Unlock Referral ask"
+              btn2Label="Unlock Referral asks"
               salaryStartRange={10}
               salaryEndRange={15}
               setShowMoreModalOpen={setShowMoreModalOpen}

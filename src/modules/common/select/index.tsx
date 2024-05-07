@@ -52,7 +52,6 @@ export function SelectField({
   sendId,
   placeHolder,
 }: SelectorProps) {
- 
   return (
     <Controller
       name={name}
@@ -85,7 +84,6 @@ export function SelectField({
                   p: 1,
                   width: "100%",
                   borderRadius: "5px",
-                  
                 }}
                 defaultValue={""}
                 value={value}

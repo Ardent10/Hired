@@ -150,8 +150,8 @@ export function BasicCard(props: CardComponentProps) {
         {props.children}
       </CardContent>
       {props.cardAction && (
-        <CardActions sx={styles.cardActionStyles}>
-          <Box gap={1} display="flex" flexDirection="column" width={"100%"}>
+        <CardActions sx={styles.cardActionStyles.main}>
+          <Box sx={styles.cardActionStyles.btnBox}>
             <PrimaryButton
               title={props.btn1Label ? props.btn1Label : ""}
               variant="contained"
@@ -191,7 +191,7 @@ export function BasicCard(props: CardComponentProps) {
                     overlap="circular"
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     variant="dot"
-                    sx={{ filter: "blur(2px)" }}
+                    sx={styles.cardActionStyles.badgeStyles}
                   >
                     <Avatar
                       alt="Remy Sharp"
@@ -203,12 +203,12 @@ export function BasicCard(props: CardComponentProps) {
                     overlap="circular"
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     variant="dot"
-                    sx={{ filter: "blur(2px)" }}
+                    sx={styles.cardActionStyles.badgeStyles}
                   >
                     <Avatar
                       alt="Remy Sharp"
                       src="/assets/cardBtnAvatar/women.jpg"
-                      sx={{ height: "30px", width: "30px" }}
+                      sx={styles.cardActionStyles.avatar}
                     />
                   </StyledBadge>
                 </Box>
@@ -220,20 +220,3 @@ export function BasicCard(props: CardComponentProps) {
     </Card>
   );
 }
-//  <Badge
-//    anchorOrigin={{
-//      vertical: "bottom",
-//      horizontal: "right",
-//    }}
-//    sx={{ mr: 1, color: "green" }}
-//    color="secondary"
-//    badgeContent=" "
-//    variant="dot"
-//  >
-//    <Avatar
-//      sx={{ width: 24, height: 24 }}
-//      alt="Remy Sharp"
-//      src="/static/images/avatar/1.jpg"
-//      sizes="small"
-//    />
-//  </Badge>;
