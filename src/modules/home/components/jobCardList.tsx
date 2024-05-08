@@ -2,9 +2,10 @@ import { BasicCard } from "@components/card";
 import { Loader } from "@modules/common/loader";
 import { Box, Grid } from "@mui/material";
 import { InitialStateType, Job } from "@store/jobs/slice";
-import { Dispatch, useEffect, useRef } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { Error } from "../components/error";
 import { NoDataFound } from "../components/noDataFound";
+import { DetailedJobModal } from "./detailedJobModal";
 
 interface JobCardListProps {
   isLoading: boolean;
@@ -12,6 +13,7 @@ interface JobCardListProps {
   jobs: Job[];
   state: InitialStateType;
   setShowMoreModalOpen: (value: boolean) => void;
+  openShowMoreModal: boolean;
   setApiData: Dispatch<
     React.SetStateAction<{
       limit: number;
@@ -29,10 +31,12 @@ export function JobCardList({
   error,
   jobs,
   setShowMoreModalOpen,
+  openShowMoreModal,
   setApiData,
   apiData,
   state,
 }: JobCardListProps) {
+  const [modalData, setModalData] = useState<Job | null | undefined>(null);
   const totalJobCount = state.jobs.totalCount || 947;
   const filteredJobsCount = state.filteredJobsList;
   const observerTarget = useRef(null);
@@ -63,6 +67,11 @@ export function JobCardList({
     };
   }, [observerTarget]);
 
+  function handleViewJobClick(jobId: string) {
+    const job = jobs.find((job) => job.jdUid === jobId);
+    setModalData(job);
+  }
+
   return (
     <Grid container spacing={{ xs: 4, lg: 8 }}>
       {jobs.length
@@ -87,16 +96,22 @@ export function JobCardList({
                 btn1Label="⚡ Easy Apply"
                 btn2Label="Unlock Referral asks"
                 setShowMoreModalOpen={setShowMoreModalOpen}
-                btnOnClick={() => console.log("Button clicked")}
+                btnOnClick={() => setShowMoreModalOpen(true)}
+                handleViewJobClick={() => handleViewJobClick(job.jdUid)}
               />
             </Grid>
           ))
-        : !isLoading && <NoDataFound />
-
-        }
+        : !isLoading && <NoDataFound />}
       {isLoading && <Loader componentLoader />}
       {error && <Error />}
       <Box ref={observerTarget} id="observerTarget" height={0.15} />
+      {openShowMoreModal && (
+        <DetailedJobModal
+          open={openShowMoreModal}
+          CloseModal={() => setShowMoreModalOpen(false)}
+          data={modalData}
+        />
+      )}
     </Grid>
   );
 }

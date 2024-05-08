@@ -32,4 +32,5 @@ export interface CardComponentProps extends CardStyleProps {
   btnDisabled?: boolean;
   btnType?: string;
   postedDate?: string;
+  handleViewJobClick?:any;
 }

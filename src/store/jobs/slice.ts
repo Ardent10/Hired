@@ -43,7 +43,7 @@ export const jobsSlice = createSlice({
   initialState,
   reducers: {
     filteredJobsList(state, action: PayloadAction<JobsData>) {
-      state.jobs = action.payload;
+      state.filteredJobsList = action.payload;
     },
     jobsList(state, action: PayloadAction<JobsData>) {
       state.jobs = action.payload;

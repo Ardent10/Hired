@@ -43,6 +43,7 @@ export function Home() {
           error={error}
           jobs={jobs}
           setShowMoreModalOpen={setShowMoreModalOpen}
+          openShowMoreModal={openShowMoreModal}
           setApiData={setApiData}
           apiData={apiData}
           state={state}
