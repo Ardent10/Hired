@@ -34,6 +34,7 @@ export function JobCardList({
   state,
 }: JobCardListProps) {
   const totalJobCount = state.jobs.totalCount || 947;
+  const filteredJobsCount = state.filteredJobsList;
   const observerTarget = useRef(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -90,7 +91,9 @@ export function JobCardList({
               />
             </Grid>
           ))
-        : !isLoading && <NoDataFound />}
+        : !isLoading && <NoDataFound />
+
+        }
       {isLoading && <Loader componentLoader />}
       {error && <Error />}
       <Box ref={observerTarget} id="observerTarget" height={0.15} />

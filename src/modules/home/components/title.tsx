@@ -7,7 +7,7 @@ export function JobPageTitle(){
       variant="h4"
       color="transparent"
       sx={{
-        backgroundImage: "linear-gradient(to right, lightgreen, #A5DD9B)",
+        backgroundImage: "linear-gradient(to right, #54efc3, #A5DD9B)",
         backgroundClip: "text",
       }}
       fontSize={60}

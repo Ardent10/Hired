@@ -127,6 +127,7 @@ export function Filter({ control, watch }: FilterProps) {
         totalCount: filteredJobsArray?.length,
       })
     );
+    setFilteredJobsArray([]);
   }, [filteredJobsArray]);
 
   console.log("State", state, "filteredJobs", filteredJobsArray);

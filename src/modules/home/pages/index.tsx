@@ -1,3 +1,4 @@
+import Navbar from "@modules/common/navbar";
 import { Box } from "@mui/material";
 import { RootState } from "@store/index";
 import { useEffect, useState } from "react";
@@ -18,7 +19,6 @@ export function Home() {
   const { isLoading, error, getJobsList } = useJobs();
   const { control, watch } = useForm();
 
-
   useEffect(() => {
     getJobsList(apiData);
   }, [apiData]);
@@ -26,24 +26,28 @@ export function Home() {
   const jobs = state?.jobs?.jdList;
 
   return (
-    <Box
-      textAlign="center"
-      minHeight={"90vh"}
-      height="auto"
-      py={4}
-      px={{ xs: 4, md: 8, lg: 16 }}
-    >
-      <JobPageTitle />
-      <Filter control={control} watch={watch} />
-      <JobCardList
-        isLoading={isLoading}
-        error={error}
-        jobs={jobs}
-        setShowMoreModalOpen={setShowMoreModalOpen}
-        setApiData={setApiData}
-        apiData={apiData}
-        state={state}
-      />
+    <Box>
+      <Navbar />
+
+      <Box
+        textAlign="center"
+        minHeight={"90vh"}
+        height="auto"
+        py={4}
+        px={{ xs: 4, md: 8, lg: 16 }}
+      >
+        <JobPageTitle />
+        <Filter control={control} watch={watch} />
+        <JobCardList
+          isLoading={isLoading}
+          error={error}
+          jobs={jobs}
+          setShowMoreModalOpen={setShowMoreModalOpen}
+          setApiData={setApiData}
+          apiData={apiData}
+          state={state}
+        />
+      </Box>
     </Box>
   );
 }
