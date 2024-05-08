@@ -37,8 +37,11 @@ export function JobCardList({
   state,
 }: JobCardListProps) {
   const [modalData, setModalData] = useState<Job | null | undefined>(null);
-  const totalJobCount = state.jobs.totalCount || 947;
-  const filteredJobsCount = state.filteredJobsList;
+  const [jobsList, setJobsList] = useState<Job[]>(jobs);
+
+  const totalJobCount = state?.jobs?.totalCount;
+  const filteredJobs = state?.filteredJobsList;
+
   const observerTarget = useRef(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -65,17 +68,22 @@ export function JobCardList({
         observer.unobserve(observerTarget.current);
       }
     };
-  }, [observerTarget]);
+  }, []);
 
   function handleViewJobClick(jobId: string) {
     const job = jobs.find((job) => job.jdUid === jobId);
     setModalData(job);
   }
+  // useEffect(() => {
+  //   if (filteredJobs.totalCount) setJobsList(filteredJobs.jdList)
+  //   else setJobsList(jobs);
+  // }, [filteredJobs, jobs]);
+  console.log("filteredJobs", filteredJobs, filteredJobs.totalCount,totalJobCount);
 
   return (
     <Grid container spacing={{ xs: 4, lg: 8 }}>
-      {jobs.length
-        ? jobs?.map((job: any, index: number) => (
+      {jobsList.length
+        ? jobsList?.map((job: any) => (
             <Grid item key={job.jdUid} xs={12} sm={6} md={4}>
               <BasicCard
                 key={job.jdUid}

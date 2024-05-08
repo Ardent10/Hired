@@ -130,7 +130,6 @@ export function Filter({ control, watch }: FilterProps) {
     setFilteredJobsArray([]);
   }, [filteredJobsArray]);
 
-  console.log("State", state, "filteredJobs", filteredJobsArray);
   return (
     <Grid
       container
