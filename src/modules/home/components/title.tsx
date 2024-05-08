@@ -3,8 +3,7 @@ import { Typography } from "@mui/material";
 export function JobPageTitle(){
   return (
     <Typography
-      p={4}
-      pb={6}
+      p={2}
       variant="h4"
       color="transparent"
       sx={{

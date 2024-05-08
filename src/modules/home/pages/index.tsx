@@ -16,13 +16,15 @@ export function Home() {
     offset: 0,
   });
   const { isLoading, error, getJobsList } = useJobs();
-  const { handleSubmit, control, watch } = useForm();
+  const { control, watch } = useForm();
+
 
   useEffect(() => {
     getJobsList(apiData);
   }, [apiData]);
 
   const jobs = state?.jobs?.jdList;
+
   return (
     <Box
       textAlign="center"

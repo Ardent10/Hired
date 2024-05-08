@@ -1,7 +1,7 @@
 import { BasicCard } from "@components/card";
 import { Loader } from "@modules/common/loader";
 import { Box, Grid } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { Dispatch, useEffect, useRef } from "react";
 import { Error } from "../components/error";
 import { NoDataFound } from "../components/noDataFound";
 
@@ -11,7 +11,12 @@ interface JobCardListProps {
   jobs: any;
   state: any;
   setShowMoreModalOpen: (value: boolean) => void;
-  setApiData: (value: { offset: number; limit: number }) => void;
+  setApiData: Dispatch<
+    React.SetStateAction<{
+      limit: number;
+      offset: number;
+    }>
+  >;
   apiData: {
     limit: number;
     offset: number;
@@ -27,7 +32,7 @@ export function JobCardList({
   apiData,
   state,
 }: JobCardListProps) {
-  const totalJobCount = state.jobs.totalCount ?? 947;
+  const totalJobCount = state.jobs.totalCount || 947;
   const observerTarget = useRef(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,7 +40,10 @@ export function JobCardList({
         if (entries[0].isIntersecting) {
           const nextOffset = apiData.offset + apiData.limit;
           if (nextOffset <= totalJobCount) {
-            setApiData({ ...apiData, offset: nextOffset });
+            setApiData((prev: { limit: number; offset: number }) => ({
+              ...prev,
+              offset: prev.offset + apiData.limit,
+            }));
           }
         }
       },
@@ -52,7 +60,7 @@ export function JobCardList({
       }
     };
   }, [observerTarget]);
-
+  console.log("apiData", apiData, totalJobCount);
   return (
     <Grid container spacing={{ xs: 4, lg: 8 }}>
       {jobs.length

@@ -1,7 +1,12 @@
 import { InputField } from "@modules/common/input";
 import { SelectField } from "@modules/common/select";
 import { Grid } from "@mui/material";
+import { RootState } from "@store/index";
+import { filteredJobsList } from "@store/jobs/slice";
+import { selectFieldData } from "@utils/filterOptionsData";
+import { useEffect, useMemo } from "react";
 import { Control, FieldValues, UseFormWatch } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 
 interface FilterProps {
   control: Control;
@@ -9,6 +14,120 @@ interface FilterProps {
 }
 
 export function Filter({ control, watch }: FilterProps) {
+  const dispatch = useDispatch();
+  const jobs = useSelector((state: RootState) => state.jobs.jobs.jdList); // Get jobs list from Redux store
+
+  const roles = watch("roles");
+  const companySize = watch("companySize");
+  const experience = watch("experience");
+  const remote = watch("remote");
+  const techStack = watch("techStack");
+  const minBasePay = watch("minBasePay");
+  const companyNames = watch("companyName");
+
+ const filters = useMemo(() => {
+   return {
+     roles,
+     companySize,
+     experience,
+     remote,
+     techStack,
+     minBasePay,
+     companyNames,
+   };
+ }, [
+   roles,
+   companySize,
+   experience,
+   remote,
+   techStack,
+   minBasePay,
+   companyNames,
+ ]);
+
+
+  const filteredJobs = useMemo(
+    () =>
+      jobs.filter((job) => {
+        // Filtering logic based on filter values
+        return Object.entries(filters).some(([filterName, filterValue]) => {
+          if (!filterValue) return false; // Skip empty filters
+
+          switch (filterName) {
+            case "roles":
+              // Get an array of role values from filterValue
+              return filterValue.some(
+                (option: any) => option.value.trim() === job.jobRole.trim()
+              );
+
+            case "companySize":
+              // Get an array of company size values from jobsList against companySize
+              return (
+                job.companySize &&
+                filterValue.some(
+                  (option: any) =>
+                    option.value.trim() == (job.companySize ?? "").trim()
+                )
+              );
+
+            case "experience":
+              // Check for experience range using minExp and maxExp
+              return (
+                // if job.minExp is present and greater than or equal to filterValue
+                job.minExp && job.maxExp
+                  ? job.minExp <= filterValue.value // set true if job.maxExp is present and greater than or equal to filterValue
+                  : job.minExp
+                  ? filterValue.value >= job.minExp // set true if job.minExp is present and less than or equal to filterValue
+                  : job.maxExp // set true if job.maxExp is present and greater than or equal to filterValue
+                  ? filterValue.value >= job.maxExp
+                  : false // set false if none of the above conditions are met
+              );
+            case "remote":
+              // Exact match for remote flaga
+              return filterValue.some(
+                (option: any) => option.value.trim() == job.location.trim()
+              );
+            case "techStack":
+              // Array comparison for tech stack (multiple technologies possible)
+              // Assuming techStack is an array of strings
+              return (
+                job.techStack &&
+                filterValue.some((tech: string) =>
+                  (job.techStack ?? "").includes(tech)
+                )
+              );
+            case "minBasePay":
+              // Check if minBasePay is present and less than or equal to job's minJdSalary
+              return (
+                // if job.minJdSalary is present and greater than or equal to filterValue
+                job.minJdSalary && job.maxJdSalary
+                  ? job.maxJdSalary >= filterValue.value // set true if job.maxJdSalary is present and greater than or equal to filterValue
+                  : job.minJdSalary
+                  ? filterValue.value >= job.minJdSalary // set true if job.minJdSalary is present and less than or equal to filterValue
+                  : job.maxJdSalary // set true if job.maxJdSalary is present and greater than or equal to filterValue
+                  ? filterValue.value <= job.maxJdSalary
+                  : false // set false if none of the above conditions are met
+              );
+
+            case "companyNames":
+              return filterValue == job.companyName;
+            default:
+              return false; // Handle cases for future filters
+          }
+        });
+      }),
+    [jobs, filters]
+  );
+
+  useEffect(() => {
+    dispatch(
+      filteredJobsList({
+        jdList: filteredJobs,
+        totalCount: filteredJobs.length,
+      })
+    );
+  }, []);
+
   return (
     <Grid
       container
@@ -35,13 +154,7 @@ export function Filter({ control, watch }: FilterProps) {
           isMulti={true}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md="auto"
-        lg="auto"
-      >
+      <Grid item xs={12} sm={6} md="auto" lg="auto">
         <SelectField
           name="companySize"
           title="No of Employees"
@@ -97,6 +210,7 @@ export function Filter({ control, watch }: FilterProps) {
           sendId={false}
           placeholder="Tech Stack"
           fontSize={12}
+          isMulti={true}
         />
       </Grid>
       <Grid item xs={12} sm={6} md="auto" lg="auto">
@@ -125,169 +239,3 @@ export function Filter({ control, watch }: FilterProps) {
     </Grid>
   );
 }
-
-const selectFieldData = {
-  remote: [
-    { value: "remote", label: "Remote" },
-    { value: "hybrid", label: "Hybrid" },
-    { value: "in office", label: "In Office" },
-  ],
-  minBasePay: [
-    { value: "0", label: "0L" },
-    { value: "10", label: "10L" },
-    { value: "20", label: "20L" },
-    { value: "30", label: "30L" },
-    { value: "40", label: "40L" },
-    { value: "50", label: "50L" },
-    { value: "60", label: "60L" },
-    { value: "70", label: "70L" },
-  ],
-  techStack: [
-    { value: "react", label: "React" },
-    { value: "angular", label: "Angular" },
-    { value: "vue", label: "Vue" },
-    { value: "node", label: "Node" },
-    { value: "express", label: "Express" },
-    { value: "mongo", label: "Mongo" },
-    { value: "sql", label: "SQL" },
-    { value: "java", label: "Java" },
-    { value: "python", label: "Python" },
-    { value: "c++", label: "C++" },
-    { value: "c#", label: "C#" },
-    { value: "ruby", label: "Ruby" },
-    { value: "php", label: "PHP" },
-    { value: "laravel", label: "Laravel" },
-    { value: "django", label: "Django" },
-    { value: "flask", label: "Flask" },
-    { value: "spring", label: "Spring" },
-    { value: "ruby on rails", label: "Ruby on Rails" },
-    { value: "go", label: "Go" },
-    { value: "rust", label: "Rust" },
-    { value: "scala", label: "Scala" },
-    { value: "kotlin", label: "Kotlin" },
-    { value: "swift", label: "Swift" },
-    { value: "flutter", label: "Flutter" },
-    { value: "react native", label: "React Native" },
-    { value: "ionic", label: "Ionic" },
-    { value: "xamarin", label: "Xamarin" },
-    { value: "unity", label: "Unity" },
-    { value: "unreal", label: "Unreal" },
-    { value: "docker", label: "Docker" },
-    { value: "kubernetes", label: "Kubernetes" },
-    { value: "jenkins", label: "Jenkins" },
-    { value: "git", label: "Git" },
-    { value: "github", label: "Github" },
-    { value: "gitlab", label: "Gitlab" },
-    { value: "bitbucket", label: "Bitbucket" },
-    { value: "aws", label: "AWS" },
-    { value: "azure", label: "Azure" },
-    { value: "gcp", label: "GCP" },
-    { value: "firebase", label: "Firebase" },
-    { value: "heroku", label: "Heroku" },
-    { value: "netlify", label: "Netlify" },
-    { value: "vercel", label: "Vercel" },
-    { value: "digital ocean", label: "Digital Ocean" },
-    { value: "cloudflare", label: "Cloudflare" },
-    { value: "nginx", label: "Nginx" },
-    { value: "apache", label: "Apache" },
-  ],
-  experience: [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
-    { value: "5", label: "5" },
-    { value: "6", label: "6" },
-    { value: "7", label: "7" },
-    { value: "8", label: "8" },
-    { value: "9", label: "9" },
-    { value: "10", label: "10" },
-  ],
-  companySize: [
-    { value: "1-10", label: "1-10" },
-    { value: "21-50", label: "21-50" },
-    { value: "51-100", label: "51-100" },
-    { value: "101-200", label: "101-200" },
-    { value: "201-500", label: "201-500" },
-  ],
-
-  roles: [
-    {
-      label: "ENGINEERING",
-      options: [
-        { value: "frontend", label: "Frontend" },
-        { value: "backend", label: "Backend" },
-        { value: "fullstack", label: "Fullstack" },
-        { value: "ios", label: "IOS" },
-        { value: "devops", label: "DevOps" },
-        { value: "qa", label: "QA" },
-        { value: "mobile", label: "Mobile" },
-        { value: "data", label: "Data" },
-        { value: "security", label: "Security" },
-        { value: "blockchain", label: "Blockchain" },
-        { value: "game", label: "Game" },
-        { value: "embedded", label: "Embedded" },
-        { value: "iot", label: "IoT" },
-        { value: "ar/vr", label: "AR/VR" },
-        { value: "machine learning", label: "Machine Learning" },
-        {
-          value: "artificial intelligence",
-          label: "Artificial Intelligence",
-        },
-        { value: "cloud", label: "Cloud" },
-        { value: "big data", label: "Big Data" },
-        { value: "cyber security", label: "Cyber Security" },
-        { value: "networking", label: "Networking" },
-        { value: "web", label: "Web" },
-      ],
-    },
-    {
-      label: "DESIGN",
-      options: [
-        { value: "desuigner", label: "Designer" },
-        { value: "product designer", label: "Product Designer" },
-        { value: "ux/ui designer", label: "UX/UI Designer" },
-        { value: "graphic designer", label: "Graphic Designer" },
-        { value: "web designer", label: "Web Designer" },
-        { value: "illustrator", label: "Illustrator" },
-        { value: "motion designer", label: "Motion Designer" },
-        { value: "3d designer", label: "3D Designer" },
-      ],
-    },
-    {
-      label: "PRODUCT",
-      options: [
-        { value: "product manager", label: "Product Manager" },
-        { value: "product owner", label: "Product Owner" },
-        { value: "product analyst", label: "Product Analyst" },
-        { value: "product marketer", label: "Product Marketer" },
-        { value: "product engineer", label: "Product Engineer" },
-      ],
-    },
-    {
-      label: "OPERATIONS",
-      options: [
-        { value: "operations manager", label: "Operations Manager" },
-        { value: "founder/COS", label: "Founder / Chief of Staff" },
-      ],
-    },
-    {
-      label: "SALES",
-      options: [
-        { value: "sales", label: "Sales" },
-        { value: "marketing", label: "Marketing" },
-        {
-          value: "business development",
-          label: "Business Development",
-        },
-      ],
-    },
-    {
-      label: "SUPPORT",
-      options: [
-        { value: "customer support", label: "Customer Support" },
-        { value: "technical support", label: "Technical Support" },
-      ],
-    },
-  ],
-};

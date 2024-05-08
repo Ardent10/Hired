@@ -13,6 +13,8 @@ type Job = {
   minExp?: number;
   minJdSalary?: number;
   salaryCurrencyCode: string;
+  techStack?: string;
+  companySize?: string;
 };
 
 type JobsData = {
@@ -35,11 +37,14 @@ export const jobsSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
+    filteredJobsList(state, action: PayloadAction<JobsData>) {
+      state.jobs = action.payload;
+    },
     jobsList(state, action: PayloadAction<JobsData>) {
       state.jobs = action.payload;
     },
   },
 });
 
-export const { jobsList } = jobsSlice.actions;
+export const { jobsList,filteredJobsList } = jobsSlice.actions;
 export default jobsSlice.reducer;

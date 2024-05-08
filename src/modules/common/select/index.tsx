@@ -33,7 +33,6 @@ export function SelectField({
   name,
   control,
   title,
-
   fontSize,
   isMulti,
   required,
@@ -47,9 +46,8 @@ export function SelectField({
       name={name}
       control={control}
       render={({
-        field: { onChange, onBlur, value, ref },
-        fieldState: { isTouched, isDirty, error },
-        formState: { isValid },
+        field: { onChange, onBlur, value },
+        fieldState: {  error },
       }) => {
         return (
           <Grid container item width="auto" display="block">

@@ -24,7 +24,7 @@
       "@modules/*": ["./src/modules/*"],
       "@components/*": ["./src/modules/common/*"],
       "@store/*": ["./src/store/*"],
-      "@utils/*": ["./src/utils"]
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src"],
