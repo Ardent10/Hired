@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type Job = {
+export type Job = {
   jdUid: string;
   companyName: string;
   jdLink: string;
@@ -22,12 +22,17 @@ type JobsData = {
   totalCount: number;
 };
 
-interface InitialStateType {
+export interface InitialStateType {
   jobs: JobsData;
+  filteredJobsList: JobsData;
 }
 
 const initialState: InitialStateType = {
   jobs: {
+    jdList: [],
+    totalCount: 0,
+  },
+  filteredJobsList: {
     jdList: [],
     totalCount: 0,
   },
@@ -46,5 +51,5 @@ export const jobsSlice = createSlice({
   },
 });
 
-export const { jobsList,filteredJobsList } = jobsSlice.actions;
+export const { jobsList, filteredJobsList } = jobsSlice.actions;
 export default jobsSlice.reducer;

@@ -1,6 +1,7 @@
 import { BasicCard } from "@components/card";
 import { Loader } from "@modules/common/loader";
 import { Box, Grid } from "@mui/material";
+import { InitialStateType, Job } from "@store/jobs/slice";
 import { Dispatch, useEffect, useRef } from "react";
 import { Error } from "../components/error";
 import { NoDataFound } from "../components/noDataFound";
@@ -8,8 +9,8 @@ import { NoDataFound } from "../components/noDataFound";
 interface JobCardListProps {
   isLoading: boolean;
   error: string | null;
-  jobs: any;
-  state: any;
+  jobs: Job[];
+  state: InitialStateType;
   setShowMoreModalOpen: (value: boolean) => void;
   setApiData: Dispatch<
     React.SetStateAction<{
@@ -60,7 +61,7 @@ export function JobCardList({
       }
     };
   }, [observerTarget]);
-  console.log("apiData", apiData, totalJobCount);
+
   return (
     <Grid container spacing={{ xs: 4, lg: 8 }}>
       {jobs.length
